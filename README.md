@@ -8,28 +8,40 @@ Sample output from Ku Klux Klan’s websites
 https://motiondesignstudio.wordpress.com/2016/03/14/word-frequency-on-ku-klux-klans-websites/
 
 #Download a website using the sitemap and display its text without html
+
 example=wordFrequency(url="http://myurl.net/sitemap.xml")
+
 example.crawl_sitemap( retry_rate=15) 
 
 #Download ALL the pages from a website and display its text without html
+
 example=wordFrequency(url="http://mustpassarobotsfile.com/")
+
 example.scrape_all_websites_text( link_regex='/*', max_depth=-1, retry_rate = 15, robots_file='http://mustpassarobotsfile.com/robots.txt' )
 
 #Download a SINGLE webpage and display its text without html
+
 example=wordFrequency(url="http://myurl.net/")
+
 print ( example.display_text_only( ) )
 
 #Download a SINGLE webpage and display its text
+
 example=wordFrequency(url="http://myurl.net/")
+
 print ( example.download( num_retries=2 ) )
 
 
 #Search for specific amount of words left or right of a specified word
+
 example=wordFrequency(file_source="my_text_file.txt", number_to_display = 20)
+
 print ( example.get_surrounding_words("Christmas", 4, 4) )
 
 #Search for words and display word frequncy in a local text file
+
 #example=wordFrequency(file_source="localTextFile.txt", number_to_display = 20)
+
 #print ( example.frequency_in_file() )
 
 The downloaded pages require some additional cleaning.  
