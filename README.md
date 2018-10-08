@@ -29,7 +29,9 @@ example=wordFrequency(file_source="my_text_file.txt", number_to_display = 20)
 print ( example.get_surrounding_words("Christmas", 4, 4) )
 
 #Search for words and display word frequncy in a local text file
+
 #example=wordFrequency(file_source="localTextFile.txt", number_to_display = 20)
+
 #print ( example.frequency_in_file() )
 
 The downloaded pages require some additional cleaning.  
