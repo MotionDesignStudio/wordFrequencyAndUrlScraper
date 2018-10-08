@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3.6
 
 import sys
 #
@@ -33,6 +33,7 @@ class wordFrequency:
 
 
 	def randomize_user_agent(self):
+		print ( "XXXXX ")
 		#randomize user agents
 		u1="Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20121202 Firefox/17.0 Iceweasel/17.0.1"
 		u2="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0"
@@ -108,7 +109,7 @@ class wordFrequency:
 		for link in links:
 			print ("Downloading url %s from %s sitemap :" % (link , urlparse.urlparse(self.url).netloc) )
 			# Download text from a web url
-			outputme="<url :::> ", self.url, " </url>", display_text_only( link )
+			outputme="<url :::> ", self.url, " </url>", self.display_text_only( link )
 			outputme=str (outputme )		
 			fo.write( outputme)
 			sleep(retry_rate)
@@ -145,11 +146,11 @@ class wordFrequency:
 		while crawl_queue:
 			url = crawl_queue.pop()
 			# Check url passes robots.txt restrictions
-			if rp.can_fetch (randomize_user_agent(), url):
-				html = download ( url )
+			if rp.can_fetch (self.randomize_user_agent(), url):
+				html = self.download ( url )
 
 				# Download the text for the web page
-				outputme="<url :::> ", url, " </url>", display_text_only( url )
+				outputme="<url :::> ", url, " </url>", self.display_text_only( url )
 				outputme=str (outputme )
 				#print ( outputme )
 				fo = open(urlparse.urlparse(self.url).netloc + ".txt", "a")
@@ -164,16 +165,16 @@ class wordFrequency:
 
 					if link_regex: 
 						# Filter for link(s) matching our regular expression
-						links.extend(link for link in get_links(html) if re.match (link_regex, link) )
+						links.extend(link for link in self.get_links(html) if re.match (link_regex, link) )
 				for link in links:
-					link = normalize(self.url, link)
+					link = self.normalize(self.url, link)
 					# check whether already crawled this link
 					if link not in seen:
 					#if link not in seen and not in list_of_bad_urls:
 				
 						seen[link]= depth+1
 						# check link is within same domain
-						if same_domain (self.url, link):
+						if self.same_domain (self.url, link):
 							# success! add this new link to queue
 							crawl_queue.append (link)
 
@@ -190,7 +191,7 @@ class wordFrequency:
 	def download(self, num_retries=2):
 		#print ('Downloading:', url)
 
-		headers = { 'User-Agent': randomize_user_agent() }
+		headers = { 'User-Agent': self.randomize_user_agent() }
 	
 		request = urllib2.Request(self.url, headers=headers)
 		try:
@@ -228,7 +229,7 @@ class wordFrequency:
 
 
 #Download a wesite using the sitemap and display its text without html
-#example=wordFrequency(url="http://mo-de.net/sitemap.xml")
+#example=wordFrequency(url="http://awebsite.net/sitemap.xml")
 #print ( example.crawl_sitemap( retry_rate=15) )
 
 #Download all the pages from a website and display its text without html
@@ -236,15 +237,18 @@ class wordFrequency:
 #example.scrape_all_websites_text( link_regex='/*', max_depth=-1, retry_rate = 15, robots_file='http://mustpassarobotsfile.com/robots.txt' )
 
 #Download a SINGLE webpage and display its text without html
-#example=wordFrequency(url="http://mo-de.net/acrobaticyoga")
+#example=wordFrequency(url="http://awebsite.net/acrobaticyoga")
 #print ( example.display_text_only( ) )
 
 #Download a webpage and display its text
-#example=wordFrequency(url="http://mo-de.net/acrobaticyoga")
+#example=wordFrequency(url="http://awebsite.net/subdomain")
 #print ( example.download( num_retries=2 ) )
 
-
 #Search for specific amount of words left or right of a specified word
-#example=wordFrequency(file_source="my_text_file.txt", number_to_display = 20)
+#example=wordFrequency(file_source="localTxtFile.txt", number_to_display = 20)
 #print ( example.get_surrounding_words("Christmas", 4, 4) )
+
+#Search for words and display word frequncy in a local text file
+#example=wordFrequency(file_source="localTxtFile.txt", number_to_display = 20)
+#print ( example.frequency_in_file() )
 
